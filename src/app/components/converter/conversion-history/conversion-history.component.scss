@@ -1,0 +1,16 @@
+/* Styles pour l'historique des conversions */
+.conversion-history {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.conversion-history th,
+.conversion-history td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.conversion-history th {
+    background-color: #f2f2f2;
+}

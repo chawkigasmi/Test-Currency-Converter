@@ -1,0 +1,44 @@
+<!-- Conteneur principal pour le convertisseur de devises -->
+<div class="converter-container">
+    <!-- Titre de l'application -->
+    <h2>Convertisseur EUR/USD</h2>
+
+    <!-- Contrôle de saisie du montant et sélection de la devise -->
+    <div class="conversion-control">
+        <label for="amount">Montant:</label>
+        <!-- Entrée pour le montant avec liaison bi-directionnelle et appel à convertAmount() à chaque saisie -->
+        <input type="number" [(ngModel)]="amount" (input)="convertAmount()" />
+        <!-- Sélection de la devise avec liaison bi-directionnelle et appel à toggleConversionDirection() lors du changement de sélection -->
+        <select id="currency" [(ngModel)]="isEuroToDollar" (change)="toggleConversionDirection()">
+            <option value="true">EUR</option>
+            <option value="false">USD</option>
+        </select>
+    </div>
+
+    <!-- Affichage du taux de change actuel -->
+    <div class="conversion-control">
+        <label for="rate">Taux de change actuel:</label>
+        <!-- Affichage du taux de change actuel récupéré depuis le composant Angular -->
+        <div class="exchange-rate">{{ exchangeRate }}</div>
+    </div>
+
+    <!-- Contrôle pour saisir un taux de change personnalisé -->
+    <div class="conversion-control">
+        <label for="customRate">Taux de change personnalisé:</label>
+        <!-- Entrée pour le taux de change personnalisé avec appel à setCustomExchangeRate() à chaque saisie -->
+        <input type="number" id="customRate" [(ngModel)]="customExchangeRate" (input)="setCustomExchangeRate(customExchangeRate ?? exchangeRate)" />
+    </div>
+
+    <!-- Bouton pour inverser la direction de la conversion -->
+    <button class="invert-button" (click)="toggleConversionDirection()">Inverser la conversion</button>
+
+    <!-- Affichage du résultat de la conversion -->
+    <div class="result">
+        Résultat: <span class="converted-value">  {{ convertedAmount | number:'1.2-2' }} {{ isEuroToDollar ? 'USD' : 'EUR' }}
+        </span>
+    </div>
+
+    <!-- Tableau historique des conversions -->
+    <app-conversion-history [history]="conversionHistory"></app-conversion-history>
+
+</div>

@@ -1,0 +1,26 @@
+<!-- Tableau historique des conversions -->
+<div class="conversion-history-container">
+    <table class="conversion-history">
+      <thead>
+        <tr>
+          <th>Taux réel</th>
+          <th>Taux saisi</th>
+          <th>Montant initial</th>
+          <th>Devise initiale</th>
+          <th>Montant converti</th>
+          <th>Devise convertie</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let record of history">
+          <td>{{ record.realRate }}</td>
+          <td>{{ record.customRate || '-' }}</td>
+          <td>{{ record.initialAmount }}</td>
+          <td>{{ record.initialCurrency }}</td>
+          <td>{{ record.convertedAmount | number:'1.2-2' }}</td>
+          <td>{{ record.convertedCurrency }}</td>
+        </tr>        
+      </tbody>
+    </table>
+  </div>
+  
