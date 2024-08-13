@@ -1,4 +1,5 @@
 # ProjectCurrencyConverter
+This project is an Angular-based single-page application (SPA) for converting currencies between Euro (EUR) and US Dollar (USD). It showcases the use of Angular 18's standalone components to create a modular, maintainable, and efficient application. The application includes features such as real-time exchange rate updates, custom rate input, and conversion history tracking.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.4.
 
