@@ -8,62 +8,63 @@ import { ConversionHistoryComponent } from '../conversion-history/conversion-his
 @Component({
   selector: 'app-converter',
   standalone: true,
-  imports: [CommonModule, FormsModule,ConversionHistoryComponent],
+  imports: [CommonModule, FormsModule, ConversionHistoryComponent],
   templateUrl: './converter.component.html',
   styleUrls: ['./converter.component.scss']
 })
 export class ConverterComponent implements OnInit {
-  exchangeRate: number = 1.1;
-  amount: number = 0;
-  convertedAmount: number = 0;
-  isEuroToDollar: boolean = true;
-  customExchangeRate: number | null = null;
-  conversionHistory: ConversionHistory[] = [];
-  private readonly MAX_HISTORY_LENGTH = 5;
+  exchangeRate: number = 1.1;  
+  amount: number = 0;  
+  convertedAmount: number = 0;  
+  isEuroToDollar: boolean = true;  
+  customExchangeRate: number | null = null;  
+  conversionHistory: ConversionHistory[] = [];  
+  private readonly MAX_HISTORY_LENGTH = 5;  
 
   constructor(private exchangeRateService: ExchangeRateService) {}
 
   ngOnInit(): void {
-    this.updateExchangeRate();  // Initialise le composant et démarre la mise à jour périodique du taux de change.
+    // Initialise le composant et récupère le taux de change initial depuis le service
+    this.exchangeRate = this.exchangeRateService.getExchangeRate();
+    this.updateExchangeRate();  // Démarre la mise à jour périodique du taux de change
   }
 
   updateExchangeRate(): void {
     setInterval(() => {
       if (this.customExchangeRate === null) {
-        // Met à jour le taux de change avec une variation aléatoire si aucun taux personnalisé n'est défini.
-        const randomChange = (Math.random() - 0.5) / 10;
-        this.exchangeRate += randomChange;
-        this.exchangeRate = Math.round(this.exchangeRate * 100) / 100;
+        // Met à jour le taux de change via le service
+        this.exchangeRateService.updateExchangeRate();
+        this.exchangeRate = this.exchangeRateService.getExchangeRate();  // Récupère le taux de change mis à jour
       }
-    }, 3000);  // Actualise le taux toutes les 3 secondes.
+    }, 3000);  // Actualise le taux toutes les 3 secondes
   }
 
   convertAmount(): void {
-    // Calcule le montant converti basé sur la direction de la conversion et met à jour l'historique.
+    // Calcule le montant converti basé sur la direction de la conversion
     if (this.isEuroToDollar) {
-      this.convertedAmount = this.amount * this.exchangeRate;
+      this.convertedAmount = this.amount * this.exchangeRate;  // Conversion EUR à USD
     } else {
-      this.convertedAmount = this.amount / this.exchangeRate;
+      this.convertedAmount = this.amount / this.exchangeRate;  // Conversion USD à EUR
     }
-    this.addToHistory();
+    this.addToHistory();  // Ajoute la conversion à l'historique
   }
 
   toggleConversionDirection(): void {
-    // Inverse la direction de la conversion et recalcule immédiatement le montant converti.
+    // Inverse la direction de la conversion et recalcule le montant
     this.isEuroToDollar = !this.isEuroToDollar;
-    [this.amount, this.convertedAmount] = [this.convertedAmount, this.amount];
+    [this.amount, this.convertedAmount] = [this.convertedAmount, this.amount];  // Échange les montants
     this.convertAmount();
   }
 
   setCustomExchangeRate(rate: number | null): void {
-    // Définit un taux de change personnalisé ou réinitialise au taux actuel si null est passé.
-    this.customExchangeRate = rate !== null ? rate : this.exchangeRate;
+    // Définit un taux de change personnalisé ou réinitialise au taux actuel
+    this.customExchangeRate = rate !== null ? rate : this.exchangeRateService.getExchangeRate();
   }
 
   addToHistory(): void {
-    // Ajoute la dernière conversion à l'historique et limite la taille de l'historique.
+    // Ajoute la dernière conversion à l'historique, limite à une longueur maximale
     if (this.conversionHistory.length >= this.MAX_HISTORY_LENGTH) {
-      this.conversionHistory.shift();  // Supprime l'élément le plus ancien si la limite est atteinte.
+      this.conversionHistory.shift();  // Supprime l'élément le plus ancien si la limite est atteinte
     }
     this.conversionHistory.push({
       realRate: this.exchangeRate,

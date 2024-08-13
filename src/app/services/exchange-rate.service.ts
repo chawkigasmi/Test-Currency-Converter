@@ -10,9 +10,6 @@ export class ExchangeRateService {
     return this.currentRate;
   }
 
-  setExchangeRate(rate: number): void {
-    this.currentRate = rate;
-  }
 
   updateExchangeRate(): void {
     const randomChange = (Math.random() - 0.5) / 10;

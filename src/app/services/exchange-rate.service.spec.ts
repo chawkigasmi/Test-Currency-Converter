@@ -17,10 +17,6 @@ describe('ExchangeRateService', () => {
     expect(service.getExchangeRate()).toBe(1.1);
   });
 
-  it('should set exchange rate correctly', () => {
-    service.setExchangeRate(1.5);
-    expect(service.getExchangeRate()).toBe(1.5);
-  });
 
   it('should update exchange rate randomly within expected range', () => {
     const baseRate = service.getExchangeRate();
@@ -32,7 +28,6 @@ describe('ExchangeRateService', () => {
   });
 
   it('should round exchange rate to two decimal places after update', () => {
-    service.setExchangeRate(1.1234);
     service.updateExchangeRate();
     const regex = /^\d+\.\d{2}$/;
     const updatedRate = service.getExchangeRate().toString();
