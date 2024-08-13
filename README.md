@@ -3,6 +3,12 @@ This project is an Angular-based single-page application (SPA) for converting cu
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.4.
 
+# Key Points
+
+- Git Clone: The `git clone -b develop` command ensures that you're cloning the specific `develop` branch of the repository.
+- npm install: This command installs all necessary packages defined in the `package.json` file.
+- ng serve: This command starts the development server and serves the Angular application, allowing you to access it via your web browser.
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
